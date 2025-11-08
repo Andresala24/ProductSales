@@ -1,0 +1,20 @@
+# Archivo de ejemplo para docker-compose.override.yml
+# Copia este archivo a docker-compose.override.yml y personaliza los valores
+# El archivo docker-compose.override.yml está en .gitignore y no se subirá al repositorio
+
+services:
+  sales-api:
+    environment:
+      # Personaliza la cadena de conexión si usas una base de datos externa
+      - ConnectionStrings__Conexion=Server=TU_SERVIDOR;Database=prueba_indigo;User Id=TU_USUARIO;Password=TU_CONTRASEÑA;TrustServerCertificate=True;
+      
+      # Configuración de Azure Blob Storage
+      - Storage__BlobSasUrl=TU_URL_SAS_DE_AZURE_BLOB_STORAGE
+      - Storage__BlobContainer=nombre-del-contenedor
+      
+      # Configuración de JWT (usa una clave secreta fuerte en producción)
+      - JwtSettings__SecretKey=TU_CLAVE_SECRETA_SUPER_SEGURA_DE_AL_MENOS_32_CARACTERES
+      - JwtSettings__Issuer=SalesAPI
+      - JwtSettings__Audience=SalesClient
+      - JwtSettings__ExpirationMinutes=60
+

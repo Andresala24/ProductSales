@@ -1,0 +1,61 @@
+# Ignorar archivos y carpetas innecesarios en el contexto de Docker
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md
+*.md
+
+# Test projects
+**/UnitTesting/
+**/TestResults/
+
+# App settings (se pasan como variables de entorno)
+**/appsettings.json
+**/appsettings.*.json
+!**/appsettings.example.json
+
+# Logs
+*.log
+**/logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg
+
+# IDE
+.idea/
+.vscode/
+*.sln.iml
+

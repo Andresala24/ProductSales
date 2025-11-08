@@ -1,0 +1,55 @@
+services:
+  # Base de datos SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sales-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - sales-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Password123 -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # API de Ventas
+  sales-api:
+    build:
+      context: .
+      dockerfile: Sales/Dockerfile
+    container_name: sales-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Conexion=Server=sqlserver;Database=prueba_indigo;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=True;
+      - JwtSettings__SecretKey=MiClaveSecretaSuperSegura12345678901234567890
+      - JwtSettings__Issuer=SalesAPI
+      - JwtSettings__Audience=SalesClient
+      - JwtSettings__ExpirationMinutes=60
+      - Storage__BlobSasUrl=${BLOB_SAS_URL:-}
+      - Storage__BlobContainer=${BLOB_CONTAINER:-testindigo}
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - sales-network
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+
+networks:
+  sales-network:
+    driver: bridge
+
