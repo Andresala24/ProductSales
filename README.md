@@ -22,7 +22,6 @@ Sistema completo de gestión de ventas e inventario desarrollado con **ASP.NET C
 - ✅ **CRUD completo** de ventas
 - ✅ **Gestión de imágenes** con Azure Blob Storage
 - ✅ **Validación de stock** al realizar ventas
-- ✅ **Actualización automática** del precio del producto al vender
 - ✅ **Reducción automática de stock** al crear ventas
 - ✅ **Eliminación automática de imágenes** del blob storage al eliminar productos
 - ✅ **Reportes de ventas** por rango de fechas
@@ -266,16 +265,18 @@ Para más detalles sobre Docker, consulta [DOCKER.md](DOCKER.md).
 
 3. **Configurar proyectos de inicio múltiples:**
    - Click derecho en la solución → **Propiedades**
-   - En **Proyectos de inicio**, seleccionar:
-     - `Sales.API` - **Iniciar**
-     - `SalesWinForms` - **Iniciar** (con retraso de 3 segundos)
+   - En la pestaña **Proyectos de inicio**, seleccionar **Varios proyectos de inicio**
+   - Configurar los siguientes proyectos:
+     - **`Sales.API`** - Acción: **Iniciar**
+     - **`SalesWinForms`** - Acción: **Iniciar** (con retraso de 3 segundos)
+   - ⚠️ **IMPORTANTE:** Solo estos dos proyectos deben estar configurados como proyectos de inicio
 
 4. **Ejecutar la aplicación:**
    - Presionar **F5** o **Iniciar**
    - La API se iniciará en `https://localhost:7263`
    - La aplicación WinForms se abrirá automáticamente después de 3 segundos
 
-### Opción 2: Ejecutar desde la Terminal
+### Opción 3: Ejecutar desde la Terminal
 
 #### Terminal 1 - Ejecutar la API:
 
@@ -297,7 +298,7 @@ dotnet restore
 dotnet run
 ```
 
-### Opción 3: Compilar y Ejecutar Manualmente
+### Opción 4: Compilar y Ejecutar Manualmente
 
 ```bash
 # Restaurar paquetes
@@ -497,12 +498,13 @@ Los logs incluyen:
 
 5. **Múltiples Proyectos de Inicio:**
    - Visual Studio puede configurarse para iniciar ambos proyectos simultáneamente
+   - Los proyectos de inicio configurados deben ser: **`Sales.API`** y **`SalesWinForms`**
    - El archivo `ProductSales.slnLaunch.user` contiene la configuración de retraso (está en `.gitignore`)
 
 6. **Validaciones de Negocio:**
    - El sistema valida que el stock sea suficiente antes de crear una venta
    - El stock se reduce automáticamente al crear una venta
-   - El precio del producto se actualiza automáticamente con el último precio de venta
+   - El precio del producto (`Price`) NO se actualiza automáticamente con las ventas
 
 ## 🐛 Solución de Problemas
 

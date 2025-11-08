@@ -21,10 +21,6 @@ Dockerfile*
 docker-compose*.yml
 .dockerignore
 
-# Documentation
-README.md
-*.md
-
 # Test projects
 **/UnitTesting/
 **/TestResults/

@@ -12,12 +12,10 @@ namespace Sales.API.Controllers;
 public class SaleController : ControllerBase
 {
     private readonly ISaleService _service;
-    private readonly IInventoryProductService _productService;
 
-    public SaleController(ISaleService service, IInventoryProductService productService)
+    public SaleController(ISaleService service)
     {
         _service = service;
-        _productService = productService;
     }
 
     /// <summary>
@@ -58,23 +56,6 @@ public class SaleController : ControllerBase
         try
         {
             var sale = await _service.CreateAsync(createDto);
-            
-            foreach (var detailDto in createDto.SalesDetails)
-            {
-                try
-                {
-                    var updateDto = new UpdateInventoryProductDto
-                    {
-                        Price = detailDto.UnitPrice
-                    };
-                    await _productService.UpdateAsync(detailDto.ProductId, updateDto);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error al actualizar Price del producto {detailDto.ProductId}: {ex.Message}");
-                }
-            }
-            
             return Created($"/api/Sale/GetById?id={sale.Id}", sale);
         }
         catch (ArgumentException ex)
